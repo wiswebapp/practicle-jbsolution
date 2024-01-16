@@ -10,7 +10,7 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title"><?=$action?> Employee</h3>
-        <a style="float: right;" class="btn btn-default" href="{{ route('admin.company.create') }}">Create New</a>
+        <a style="float: right;" class="btn btn-default" href="{{ route('admin.employee.index') }}">Back</a>
     </div>
 
     <div class="card-body p-0 mt-4">
@@ -49,7 +49,7 @@
                     <input type="email" class="form-control" name="email" value="{{old('email', @$data->email)}}" required>
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-block btn-success" value="<?=$action?> Data">
+                    <input type="submit" class="btn btn-block btn-default" value="<?=$action?> Data">
                 </div>
             </form>
         </div>

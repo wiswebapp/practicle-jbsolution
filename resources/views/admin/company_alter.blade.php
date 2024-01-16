@@ -25,15 +25,15 @@
                 @endif
                 <div class="form-group">
                     <label>Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="name" value="{{old('name', $data->name)}}" required>
+                    <input type="text" class="form-control" name="name" value="{{old('name', @$data->name)}}" required>
                 </div>
                 <div class="form-group">
                     <label>Email Address <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" name="email" value="{{old('email', $data->email)}}" required>
+                    <input type="email" class="form-control" name="email" value="{{old('email', @$data->email)}}" required>
                 </div>
                 <div class="form-group">
                     <label>Website <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" name="website" value="{{old('website', $data->website)}}" required>
+                    <input type="text" class="form-control" name="website" value="{{old('website', @$data->website)}}" required>
                 </div>
                 <div class="form-group">
                     <label>Logo (100x100) </label>

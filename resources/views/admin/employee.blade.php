@@ -24,8 +24,7 @@
                         <th>Company</th>
                         <th>Phone</th>
                         <th>Email</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th colspan="2">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,10 +33,18 @@
                     <tr>
                         <td>{{ $emp->fname . " " . $emp->lname}}</td>
                         <td>{{ $emp->company->name }}</td>
-                        <td>CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan</td>
-                        <td>isometric.mohsin@gmail.com</td>
-                        <td>+923335586757</td>
-                        <td>+923335586757</td>
+                        <td>{{ $emp->phone }}</td>
+                        <td>{{ $emp->email }}</td>
+                        <td>
+                            <a href="{{ route('admin.employee.edit', $emp) }}" class="btn btn-warning">Edit</a>
+                        </td>
+                        <td>
+                            <form onsubmit="return confirm('Do you really want to delete data?');" action="{{ route('admin.employee.destroy', $emp) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                     @else
@@ -47,6 +54,7 @@
                     @endif
                 </tbody>
             </table>
+            {{ $data->links() }}
         </div>
     </div>
 

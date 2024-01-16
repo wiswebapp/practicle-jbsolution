@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\EmployeeRegisterEvent;
+use App\Events\SendWelcomeEmail;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateEmployee;
 use App\Models\Company;
@@ -12,7 +14,7 @@ class EmployeeController extends Controller
     public function index()
     {
         return view('admin.employee', [
-            'data' => Employee::paginate(10)
+            'data' => Employee::latest()->paginate(10)
         ]);
     }
 
@@ -28,6 +30,7 @@ class EmployeeController extends Controller
     public function store(CreateEmployee $request)
     {
         Employee::create($request->validated());
+        event(new EmployeeRegisterEvent($request->validated()));
         return redirect(route('admin.employee.index'))->with('success', 'Data has been added successfully !');
     }
 
@@ -35,6 +38,7 @@ class EmployeeController extends Controller
     {
         return view('admin.employee_alter', [
             'action' => 'Edit',
+            'companyData' => Company::all(),
             'data' => $employee,
             'formUrl' => route('admin.employee.update', $employee)
         ]);

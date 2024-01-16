@@ -17,7 +17,7 @@ class Employee extends Model
         'email'
     ];
 
-    public function employees() {
-        return $this->hasOne('Employee:class');
+    public function company() {
+        return $this->belongsTo(Company::class);
     }
 }
