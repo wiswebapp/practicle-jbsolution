@@ -23,7 +23,11 @@ class CompaniesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'admin.company.edit')
+            ->addColumn('action', '<a href="{{ route("admin.company.edit", $id) }}" class="btn btn-sm btn-warning">Edit</a>&nbsp;&nbsp;<form onsubmit="return confirm(\'Do you really want to delete data?\nAll Employees linked with this company will be removed too.\');" action="{{ route(\'admin.company.destroy\', $id) }}" method="post">
+            @csrf
+            @method(\'delete\')
+            <button class="btn btn-danger">Delete</button>
+        </form>')
             ->setRowId('id');
     }
 
@@ -70,17 +74,16 @@ class CompaniesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
             Column::make('name'),
             Column::make('email'),
             Column::make('website'),
             Column::make('created_at'),
             Column::make('updated_at'),
+            Column::computed('action')
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(60)
+                  ->addClass('text-center'),
         ];
     }
 

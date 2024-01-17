@@ -23,11 +23,10 @@
 @stop
 
 @section('css')
-<!-- <link rel="stylesheet" href="/css/admin_custom.css"> -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
 @stop
 
 @section('js')
-<script>
-    console.log('Hi!');
-</script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+{{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 @stop

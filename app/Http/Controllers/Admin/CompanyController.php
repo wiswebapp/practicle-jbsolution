@@ -6,7 +6,9 @@ use App\DataTables\CompaniesDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateCompany;
 use App\Models\Company;
+use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
@@ -25,7 +27,20 @@ class CompanyController extends Controller
 
     public function store(CreateCompany $request)
     {
-        Company::create($request->validated());
+        $validatedData = $request->validated();
+
+        if($request->hasfile('logo'))
+        {
+            $file = $request->file('logo');
+            $extenstion = $file->getClientOriginalExtension();
+            $newFilName = $this->generateFileName($extenstion);;
+            $request->file('logo')->storeAs(
+                'public', $newFilName
+            );
+            $validatedData['logo'] = $newFilName;
+        }
+
+        Company::create($validatedData);
         return redirect(route('admin.company.index'))->with('success', 'Data has been added successfully !');
     }
 
@@ -40,13 +55,36 @@ class CompanyController extends Controller
 
     public function update(CreateCompany $request, Company $company)
     {
-        $company->update($request->validated());
+        $validatedData = $request->validated();
+
+        if($company->logo){
+            $oldImage = storage_path('app/public/'. $company->logo);
+            @unlink($oldImage);
+        }
+
+        if($request->hasfile('logo'))
+        {
+            $file = $request->file('logo');
+            $extenstion = $file->getClientOriginalExtension();
+            $newFileName = $this->generateFileName($extenstion);
+            $request->file('logo')->storeAs(
+                'public/', $newFileName
+            );
+            $validatedData['logo'] = $newFileName;
+        }
+
+        $company->update($validatedData);
         return redirect(route('admin.company.index'))->with('success', 'Data has been updated successfully !');
     }
 
     public function destroy(Company $company)
     {
+        Employee::where('company_id', $company->id)->delete();
         $company->delete();
         return redirect(route('admin.company.index'))->with('success', 'Data has been removed successfully !');
+    }
+
+    public function generateFileName($ext) {
+        return uniqid(rand(), true) . '.' . $ext;
     }
 }

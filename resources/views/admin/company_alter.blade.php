@@ -10,7 +10,7 @@
 <div class="card">
     <div class="card-header">
         <h3 class="card-title"><?=$action?> Companies</h3>
-        <a style="float: right;" class="btn btn-default" href="{{ route('admin.company.create') }}">Create New</a>
+        <a style="float: right;" class="btn btn-default" href="{{ route('admin.company.index') }}">Back</a>
     </div>
 
     <div class="card-body p-0 mt-4">
@@ -35,12 +35,17 @@
                     <label>Website <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" name="website" value="{{old('website', @$data->website)}}" required>
                 </div>
+                @if(@$data->logo)
+                <div class="form-group">
+                    <img src="/storage/{{ $data->logo }}" alt="Current logo" class="img-thumbnail">
+                </div>
+                @endif
                 <div class="form-group">
                     <label>Logo (100x100) </label>
                     <input type="file" class="form-control" name="logo">
                 </div>
                 <div class="form-group">
-                    <input type="submit" class="btn btn-block btn-success" value="<?=$action?> Data">
+                    <input type="submit" class="btn btn-block btn-default" value="<?=$action?> Data">
                 </div>
             </form>
         </div>
